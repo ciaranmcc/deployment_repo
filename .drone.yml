@@ -13,6 +13,6 @@ trigger:
 # The steps that will be executed in this pipeline.
 steps:
   - name: print_message
-    image: alpine
+    image: lachlanevenson/k8s-kubectl
     commands:
       - kubectl apply -f deployment/testapi_pod.yaml -n test
