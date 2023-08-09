@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: testapi3
+  labels:
+    app: testapi3
+spec:
+  containers:
+    - name: testapi3
+      image: ciaranmccamphill/testapi:latest
+      ports: 
+        - containerPort: 80
+      resources:
+        limits:
+          cpu: "1"
+          memory: "200Mi"
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: testapi3-svc
+spec:
+  selector:
+    app: testapi3  # Label selector to target your app's pods
+  ports:
+    - protocol: TCP
+      port: 8031     # Port to expose on the Service
+      targetPort: 80  # Port on the pods your app is listening to
+  type: ClusterIP  # Type of the Service (other options include NodePort and LoadBalancer)
+

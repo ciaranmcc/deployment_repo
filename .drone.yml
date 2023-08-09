@@ -1,0 +1,26 @@
+---
+###Deploy Applications to Kubernetes
+
+kind: pipeline
+type: kubernetes
+name: default
+
+workspace:
+    path: /opt/$${DRONE_REPO}
+
+steps:
+        
+#########################################################################################  
+ 
+- name: Promote-Application
+  image: alpine
+  commands:    
+    # Set environment specific environment variables
+   # - bash deploy.sh
+    - kubectl apply -f deployment/testapi_pod.yaml -n test
+    
+  when:
+    event:
+      - promote
+    branch:
+      - main
