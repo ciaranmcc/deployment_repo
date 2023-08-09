@@ -1,26 +1,18 @@
----
-###Deploy Applications to Kubernetes
-
 kind: pipeline
 type: kubernetes
 name: default
 
-workspace:
-    path: /opt/$${DRONE_REPO}
+# The trigger section defines when this pipeline should be executed.
+trigger:
+  event:
+    - push
+    - tag
+  branch:
+    - main
 
+# The steps that will be executed in this pipeline.
 steps:
-        
-#########################################################################################  
- 
-- name: Promote-Application
-  image: alpine
-  commands:    
-    # Set environment specific environment variables
-   # - bash deploy.sh
-    - kubectl apply -f deployment/testapi_pod.yaml -n test
-    
-  when:
-    event:
-      - promote
-    branch:
-      - main
+  - name: print_message
+    image: alpine
+    commands:
+      - kubectl apply -f deployment/testapi_pod.yaml -n test
